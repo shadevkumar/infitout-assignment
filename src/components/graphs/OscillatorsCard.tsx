@@ -73,7 +73,7 @@ const OscillatorsCard = ({ data }: { data: Oscillators }) => {
             </div>
           </div>
         </div>
-        <div className="flex w-[80%] flex-col py-8 px-6 gap-2 justify-between">
+        <div className="flex w-[80%] max-md:w-full flex-col py-8 px-6 gap-2 justify-between">
           <div className="flex items-center justify-between ">
             <span className="text-[#9BABC6]">RSI (14)</span>
             <span className="">{data.RSI14}</span>

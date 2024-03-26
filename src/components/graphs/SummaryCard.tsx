@@ -28,7 +28,9 @@ const Indicator: React.FC<IndicatorProps> = ({
 }) => (
   <div className="flex flex-col items-center gap-1">
     <span>{value}</span>
-    <div className={`px-2 py-1 ${bgColor} ${textColor} rounded-md`}>
+    <div
+      className={`px-2 py-1 ${bgColor} ${textColor} rounded-md max-md:text-sm`}
+    >
       {label}
     </div>
   </div>
