@@ -73,7 +73,7 @@ const MovingAveragesCard = ({ data }: { data: MovingAverages }) => {
             </div>
           </div>
         </div>
-        <div className="w-[80%] flex   flex-col py-8 px-6 gap-2 ">
+        <div className="w-[80%] max-md:w-full flex   flex-col py-8 px-6 gap-2 ">
           <div className="flex  items-center justify-between ">
             <span className="text-[#9BABC6]">EMA (5)</span>
             <span className="">{data.EMA5}</span>
