@@ -42,6 +42,7 @@ const SummaryCard = ({ data }: { data: Summary }) => {
   const [bullish, setBullish] = useState(8);
   const [barWidth, setBarWidth] = useState(384);
   const barImageRef = useRef<HTMLImageElement>(null);
+  const [aboutGraph, setAboutGraph] = useState(false);
 
   const pointerPosition = usePointerPosition({
     bullish,
@@ -54,7 +55,6 @@ const SummaryCard = ({ data }: { data: Summary }) => {
     setBarWidth(getBarWidth);
   }, [getBarWidth]);
 
-
   useEffect(() => {
     setBullish(data.bullish);
   }, [data.bullish]);
@@ -62,11 +62,28 @@ const SummaryCard = ({ data }: { data: Summary }) => {
   return (
     <>
       <div className="flex min-h-[26rem] flex-col items-center justify-between">
-        <div className="flex w-full items-center justify-between">
+        <div className="relative flex w-full items-center justify-between">
           <span className="font-semibold">Summary</span>
-          <span>
-            <CiCircleAlert className="rotate-180 text-lg" />
+          <span
+            onMouseEnter={() => {
+              setAboutGraph(true);
+            }}
+            onMouseLeave={() => {
+              setAboutGraph(false);
+            }}
+          >
+            <CiCircleAlert className="rotate-180 cursor-pointer text-lg" />
           </span>
+          {aboutGraph && (
+            <div className="absolute -top-24 right-12 z-50  bg-white md:w-[50%]">
+              <span className="text-xs">
+                Here is a Snapshot of the most popular technical indicators. We
+                take these into consideration, analyze them, run some internal
+                calculations and help you understand the overall market
+                conditions.
+              </span>
+            </div>
+          )}
         </div>
         <div className="relative flex h-32 w-80 items-center p-4 md:w-96">
           <img

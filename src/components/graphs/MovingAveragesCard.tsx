@@ -34,14 +34,13 @@ const MovingAveragesCard = ({ data }: { data: MovingAverages }) => {
     setBullish(data.bullish);
   }, [data.bullish]);
 
-
   return (
     <>
       <div className="flex min-h-[26rem] flex-col items-center justify-between">
-        <div className="flex w-full items-center justify-between">
+        <div className="relative flex w-full items-center justify-between">
           <span className="font-semibold">Moving averages</span>
           <span>
-            <CiCircleAlert className="rotate-180 text-lg" />
+            <CiCircleAlert className="rotate-180 cursor-pointer text-lg" />
           </span>
         </div>
         <div className="relative flex h-32 w-80 items-center p-4 md:w-96">
