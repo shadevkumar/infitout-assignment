@@ -35,6 +35,7 @@ const SupportResistanceCard = ({ data }: { data: SupportResistance }) => {
   const [bullish, setBullish] = useState(8);
   const [barWidth, setBarWidth] = useState(384);
   const barImageRef = useRef<HTMLImageElement>(null);
+  const [aboutGraph, setAboutGraph] = useState(false);
 
   const pointerPosition = usePointerPosition({
     bullish,
@@ -51,8 +52,6 @@ const SupportResistanceCard = ({ data }: { data: SupportResistance }) => {
     setBullish(data.bullish);
   }, [data.bullish]);
 
-
-
   const values = [
     { label: "S1", value: data.S1 },
     { label: "S2", value: data.S2 },
@@ -65,11 +64,33 @@ const SupportResistanceCard = ({ data }: { data: SupportResistance }) => {
   return (
     <>
       <div className="flex min-h-[26rem] flex-col items-center justify-start ">
-        <div className="flex  w-full items-center justify-between">
+        <div className="relative flex  w-full items-center justify-between">
           <span className="font-semibold">Support & Resistance</span>
-          <span>
-            <CiCircleAlert className="rotate-180 text-lg" />
+          <span
+            onMouseEnter={() => {
+              setAboutGraph(true);
+            }}
+            onMouseLeave={() => {
+              setAboutGraph(false);
+            }}
+          >
+            <CiCircleAlert className="rotate-180 cursor-pointer text-lg" />
           </span>
+          {aboutGraph && (
+            <div className="absolute -top-24 right-12 z-50  bg-white md:w-[60%]">
+              <span className="text-xs">
+                Support: Support prevents the price from falling further. It is
+                a price point on the chart where the trader expects maximum
+                demand (in terms of buying) coming into the stock/index.
+                Whenever the price falls to the support line, it is likely to
+                bounce back. Resistance is something that stops the price from
+                rising further. The resistance level is a price point on the
+                chart where traders expect maximum supply (in terms of selling)
+                for the stock/index. The resistance level is always above the
+                current market price.
+              </span>
+            </div>
+          )}
         </div>
         <div className="flex  flex-col justify-between ">
           <div className="relative  flex h-32 w-80 items-center px-4 pt-4 md:w-96">

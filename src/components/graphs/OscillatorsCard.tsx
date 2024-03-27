@@ -18,6 +18,7 @@ const OscillatorsCard = ({ data }: { data: Oscillators }) => {
   const [bullish, setBullish] = useState(8);
   const [barWidth, setBarWidth] = useState(384);
   const barImageRef = useRef<HTMLImageElement>(null);
+  const [aboutGraph, setAboutGraph] = useState(false);
 
   const pointerPosition = usePointerPosition({
     bullish,
@@ -37,11 +38,28 @@ const OscillatorsCard = ({ data }: { data: Oscillators }) => {
   return (
     <>
       <div className="flex min-h-[26rem] flex-col items-center justify-between">
-        <div className="flex w-full items-center justify-between">
+        <div className="relative flex w-full items-center justify-between">
           <span className="font-semibold">Oscillators</span>
-          <span>
-            <CiCircleAlert className="rotate-180 text-lg" />
+          <span
+            onMouseEnter={() => {
+              setAboutGraph(true);
+            }}
+            onMouseLeave={() => {
+              setAboutGraph(false);
+            }}
+          >
+            <CiCircleAlert className="rotate-180 cursor-pointer text-lg " />
           </span>
+          {aboutGraph && (
+            <div className="absolute -top-24 right-12 z-50  bg-white md:w-[50%]">
+              <span className="text-xs">
+                They form a majority of the leading technical indicators and
+                they oscillate between a local minimum & maximum. The
+                interpretation varies based on the position of the oscillator on
+                the chart.
+              </span>
+            </div>
+          )}
         </div>
         <div className="relative flex h-32 w-80 items-center p-4 md:w-96">
           <img
