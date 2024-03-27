@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CiCircleAlert } from "react-icons/ci";
 import { POINTER_SVG, SUMMARY_BAR_GRAPH } from "../../utils/constant";
+import { usePointerPosition } from "../../hooks/usePointerPosition";
+import { useBarResize } from "../../hooks/useBarResize";
 
 interface Summary {
   bearish: number;
@@ -41,47 +43,32 @@ const SummaryCard = ({ data }: { data: Summary }) => {
   const [barWidth, setBarWidth] = useState(384);
   const barImageRef = useRef<HTMLImageElement>(null);
 
-  const minBullish = 1;
-  const maxBullish = 17;
+  const pointerPosition = usePointerPosition({
+    bullish,
+    barWidth,
+  });
 
-  const pointerPosition = useMemo(() => {
-    const calculatePointerPosition = (bullish: number) => {
-      const normalizedBullish =
-        (bullish - minBullish) / (maxBullish - minBullish);
-      const pointerPosition = normalizedBullish * (barWidth - 40); // Subtracting the pointer width from the bar width
-      return pointerPosition;
-    };
+  const getBarWidth = useBarResize(barImageRef);
 
-    return calculatePointerPosition(bullish);
-  }, [bullish, minBullish, maxBullish, barWidth]);
+  useEffect(() => {
+    setBarWidth(getBarWidth);
+  }, [getBarWidth]);
+
 
   useEffect(() => {
     setBullish(data.bullish);
   }, [data.bullish]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (barImageRef.current) {
-        const { width } = barImageRef.current.getBoundingClientRect();
-        setBarWidth(width);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
     <>
-      <div className="min-h-[26rem] flex flex-col items-center justify-between">
-        <div className="w-full flex justify-between items-center">
+      <div className="flex min-h-[26rem] flex-col items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <span className="font-semibold">Summary</span>
           <span>
             <CiCircleAlert className="rotate-180 text-lg" />
           </span>
         </div>
-        <div className="relative w-80 md:w-96 p-4 h-32 flex items-center">
+        <div className="relative flex h-32 w-80 items-center p-4 md:w-96">
           <img
             src={SUMMARY_BAR_GRAPH}
             alt="Summarybar"
@@ -91,7 +78,7 @@ const SummaryCard = ({ data }: { data: Summary }) => {
           <img
             src={POINTER_SVG}
             alt="pointer"
-            className="pointer cursor-pointer w-5  absolute left-4" // Position the pointer at the left edge of the bar
+            className="pointer absolute left-4  w-5 cursor-pointer" // Position the pointer at the left edge of the bar
             style={{ transform: `translateX(${pointerPosition}px)` }}
           />
         </div>
@@ -115,7 +102,7 @@ const SummaryCard = ({ data }: { data: Summary }) => {
             textColor="text-[#3CBB00]"
           />
         </div>
-        <div className="grid grid-cols-3 py-8 gap-3 ">
+        <div className="grid grid-cols-3 gap-3 py-8 ">
           <Indicator
             value={data.EMA20}
             label="EMA (20)"
