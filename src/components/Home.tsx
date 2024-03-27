@@ -27,7 +27,7 @@ const Home = () => {
               onClick={() => handleTimeFrameChange(timeFrame)}
               className={`cursor-pointer text-[#9BABC6] ${
                 selectedTimeFrame === timeFrame
-                  ? "bg-blue-500 text-white px-1 rounded-md "
+                  ? "bg-blue-500 text-white px-2 rounded-md "
                   : ""
               }`}
             >

@@ -87,7 +87,7 @@ export const dummyData: { [key: string]: TimeFrameData } = {
   "10min": {
     summary: {
       bearish: 2,
-      bullish: 15,
+      bullish: 13,
       neutral: 9,
       EMA20: 22020.55,
       SMA20: 2000,
