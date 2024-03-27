@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { CiCircleAlert } from "react-icons/ci";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { OSCILLATORS_BAR_GRAPH, POINTER_SVG } from "../../utils/constant";
@@ -14,22 +14,39 @@ interface Oscillators {
 
 const OscillatorsCard = ({ data }: { data: Oscillators }) => {
   const [bullish, setBullish] = useState(8);
+  const [barWidth, setBarWidth] = useState(384);
+  const barImageRef = useRef<HTMLImageElement>(null);
 
-  const barWidth = 384;
   const minBullish = 1;
   const maxBullish = 17;
 
-  const calculatePointerPosition = (bullish: number) => {
-    const normalizedBullish =
-      (bullish - minBullish) / (maxBullish - minBullish);
-    const pointerPosition = normalizedBullish * (barWidth - 48);
-    return pointerPosition;
-  };
+  const pointerPosition = useMemo(() => {
+    const calculatePointerPosition = (bullish: number) => {
+      const normalizedBullish =
+        (bullish - minBullish) / (maxBullish - minBullish);
+      const pointerPosition = normalizedBullish * (barWidth - 40); 
+      return pointerPosition;
+    };
 
-  const pointerPosition = calculatePointerPosition(bullish);
+    return calculatePointerPosition(bullish);
+  }, [bullish, minBullish, maxBullish, barWidth]);
+
   useEffect(() => {
     setBullish(data.bullish);
-  }, [data]);
+  }, [data.bullish]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (barImageRef.current) {
+        const { width } = barImageRef.current.getBoundingClientRect();
+        setBarWidth(width);
+      }
+    };
+
+    handleResize(); // Set initial barWidth on component mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
@@ -40,16 +57,17 @@ const OscillatorsCard = ({ data }: { data: Oscillators }) => {
             <CiCircleAlert className="rotate-180 text-lg" />
           </span>
         </div>
-        <div className="relative  md:w-96 p-4 h-32 flex items-center">
+        <div className="relative w-80 md:w-96 p-4 h-32 flex items-center">
           <img
             src={OSCILLATORS_BAR_GRAPH}
             alt="OSCILLATORS BAR"
+            ref={barImageRef}
             className="w-full"
           />
           <img
             src={POINTER_SVG}
             alt="pointer"
-            className="pointer cursor-pointer w-5 md:w-6 absolute left-4"
+            className="pointer cursor-pointer w-5  absolute left-4"
             style={{ transform: `translateX(${pointerPosition}px)` }}
           />
         </div>
