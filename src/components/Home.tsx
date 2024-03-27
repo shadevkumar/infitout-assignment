@@ -20,14 +20,14 @@ const Home = () => {
   return (
     <>
       <div className="flex flex-col items-center bg-[#FBFDFF]">
-        <div className="timeframe sticky max-md:fixed md:top-16 md:bottom-auto bottom-0 md:w-[50%] w-full px-1 py-2  flex items-center max-md:justify-around md:gap-6 max-md:bg-white z-50 justify-center ">
+        <div className="timeframe sticky bottom-0 z-50 flex w-full items-center justify-center px-1 py-2  max-md:fixed max-md:justify-around max-md:bg-white md:bottom-auto md:top-16 md:w-[50%] md:gap-6 ">
           {timeFrames.map((timeFrame) => (
             <button
               key={timeFrame}
               onClick={() => handleTimeFrameChange(timeFrame)}
               className={`cursor-pointer text-[#9BABC6] ${
                 selectedTimeFrame === timeFrame
-                  ? "bg-blue-500 text-white px-2 rounded-md "
+                  ? "rounded-md bg-blue-500 px-2 text-white "
                   : ""
               }`}
             >
@@ -35,7 +35,7 @@ const Home = () => {
             </button>
           ))}
         </div>
-        <div className="flex max-md:w-[85%] w-[70%] xl:w-[90%] sticky top-16 bg-white z-40">
+        <div className="sticky top-16 z-40 flex w-[70%] bg-white max-md:w-[85%] xl:w-[90%]">
           <RiArrowLeftSLine className="mt-2" />
 
           <div className="flex flex-col">
@@ -51,7 +51,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="py-8 lg:gap-x-28 flex flex-col md:grid md:grid-cols-2 items-center justify-center gap-12 ld:gap-24 xl:gap-x-32 2xl:gap-x-64 xl:w-[90%]">
+        <div className="ld:gap-24 flex flex-col items-center justify-center gap-12 py-8 md:grid md:grid-cols-2 lg:gap-x-28 xl:w-[90%] xl:gap-x-32 2xl:gap-x-64">
           <div className="">
             <SummaryCard data={dummyData[selectedTimeFrame].summary} />
           </div>
